@@ -25,8 +25,9 @@ bool desktopIconsVisible = true;
 HWND desktopListViewHandle = nullptr;
 HWND hWndMain = nullptr; // 主窗口句柄，不显示但需要
 const wchar_t szWindowClass[] = L"TrayAppContextClass";
-const wchar_t szTitle[] = L"Desktop Icon Toggler";
+wchar_t szTitle[256]; // 使用 wchar_t 数组来存储加载的标题
 HANDLE hMutex = nullptr; // 全局互斥量句柄
+HINSTANCE hInstanceGlobal; // 保存 hInstance
 
 // --- 函数声明 ---
 HWND GetDesktopListViewHandle();
@@ -38,6 +39,8 @@ ATOM MyRegisterClass(HINSTANCE hInstance);
 void Cleanup();
 bool LoadDesktopIconsState();
 void SaveDesktopIconsState();
+static bool IsStartupEnabled();
+static void SetStartup();
 
 // 用于 EnumWindows 的回调函数
 BOOL CALLBACK EnumWindowsProc(HWND hWnd, LPARAM lParam) {
@@ -89,11 +92,24 @@ static void SetStartup()
 
         if (lRes == ERROR_SUCCESS)
         {
+            wchar_t szStartupCancelled[256];
+            LoadStringW(hInstanceGlobal, IDS_MSG_STARTUP_CANCELLED, szStartupCancelled, _countof(szStartupCancelled));
+            wchar_t szStartupSuccess[256];
+            LoadStringW(hInstanceGlobal, IDS_MSG_STARTUP_SUCCESS, szStartupSuccess, _countof(szStartupSuccess));
+            wchar_t szStartupFailed[256];
+            LoadStringW(hInstanceGlobal, IDS_MSG_STARTUP_FAILED, szStartupFailed, _countof(szStartupFailed));
+            wchar_t szRegistryError[256];
+            LoadStringW(hInstanceGlobal, IDS_MSG_REGISTRY_ERROR, szRegistryError, _countof(szRegistryError));
+            wchar_t szInfoTitle[256];
+            LoadStringW(hInstanceGlobal, IDS_INFO_TITLE, szInfoTitle, _countof(szInfoTitle));
+            wchar_t szErrorTitle[256];
+            LoadStringW(hInstanceGlobal, IDS_ERROR_TITLE, szErrorTitle, _countof(szErrorTitle));
+
             if (IsStartupEnabled())
             {
                 // 如果已启用，则删除
                 RegDeleteValueW(hKey, szTitle);
-                MessageBoxW(nullptr, L"已取消开机启动。", L"提示", MB_OK | MB_ICONINFORMATION);
+                MessageBoxW(nullptr, szStartupCancelled, szInfoTitle, MB_OK | MB_ICONINFORMATION);
             }
             else
             {
@@ -102,14 +118,28 @@ static void SetStartup()
                     szTitle, // 使用程序标题作为启动项的名称
                     0, REG_SZ, (BYTE*)szPath,
                     static_cast<DWORD>((wcslen(szPath) + 1) * sizeof(wchar_t)));
-                if (lRes == ERROR_SUCCESS) MessageBoxW(nullptr, L"已成功设置为开机启动。", L"提示", MB_OK | MB_ICONINFORMATION);
-                else MessageBoxW(nullptr, L"设置开机启动失败。", L"错误", MB_OK | MB_ICONERROR);
+                if (lRes == ERROR_SUCCESS) MessageBoxW(nullptr, szStartupSuccess, szInfoTitle, MB_OK | MB_ICONINFORMATION);
+                else MessageBoxW(nullptr, szStartupFailed, szErrorTitle, MB_OK | MB_ICONERROR);
             }
             RegCloseKey(hKey);
         }
-        else MessageBoxW(nullptr, L"无法访问注册表。", L"错误", MB_OK | MB_ICONERROR);
+        else
+        {
+            wchar_t szRegistryError[256];
+            LoadStringW(hInstanceGlobal, IDS_MSG_REGISTRY_ERROR, szRegistryError, _countof(szRegistryError));
+            wchar_t szErrorTitle[256];
+            LoadStringW(hInstanceGlobal, IDS_ERROR_TITLE, szErrorTitle, _countof(szErrorTitle));
+            MessageBoxW(nullptr, szRegistryError, szErrorTitle, MB_OK | MB_ICONERROR);
+        }
     }
-    else MessageBoxW(nullptr, L"无法获取程序路径。", L"错误", MB_OK | MB_ICONERROR);
+    else
+    {
+        wchar_t szPathError[256];
+        LoadStringW(hInstanceGlobal, IDS_MSG_PATH_ERROR, szPathError, _countof(szPathError));
+        wchar_t szErrorTitle[256];
+        LoadStringW(hInstanceGlobal, IDS_ERROR_TITLE, szErrorTitle, _countof(szErrorTitle));
+        MessageBoxW(nullptr, szPathError, szErrorTitle, MB_OK | MB_ICONERROR);
+    }
 }
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -120,18 +150,34 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
+    hInstanceGlobal = hInstance; // 保存 hInstance
+
+    // 加载应用程序标题
+    LoadStringW(hInstance, IDS_APP_TITLE, szTitle, _countof(szTitle));
+
+    wchar_t szErrorTitle[256];
+    LoadStringW(hInstance, IDS_ERROR_TITLE, szErrorTitle, _countof(szErrorTitle));
+    wchar_t szInfoTitle[256];
+    LoadStringW(hInstance, IDS_INFO_TITLE, szInfoTitle, _countof(szInfoTitle));
+    wchar_t szWarningTitle[256];
+    LoadStringW(hInstance, IDS_WARNING_TITLE, szWarningTitle, _countof(szWarningTitle));
+
     // 创建命名互斥量
     hMutex = CreateMutexW(nullptr, TRUE, MUTEX_NAME);
     if (hMutex == nullptr)
     {
-        MessageBoxW(nullptr, L"创建互斥量失败！", L"错误", MB_OK | MB_ICONERROR);
+        wchar_t szMutexFailed[256];
+        LoadStringW(hInstance, IDS_MSG_MUTEX_FAILED, szMutexFailed, _countof(szMutexFailed));
+        MessageBoxW(nullptr, szMutexFailed, szErrorTitle, MB_OK | MB_ICONERROR);
         return 1;
     }
 
     // 检查是否已有其他实例运行
     if (GetLastError() == ERROR_ALREADY_EXISTS)
     {
-        MessageBoxW(nullptr, L"程序已经在运行！", L"提示", MB_OK | MB_ICONINFORMATION);
+        wchar_t szAlreadyRunning[256];
+        LoadStringW(hInstance, IDS_MSG_ALREADY_RUNNING, szAlreadyRunning, _countof(szAlreadyRunning));
+        MessageBoxW(nullptr, szAlreadyRunning, szInfoTitle, MB_OK | MB_ICONINFORMATION);
         CloseHandle(hMutex);
         return 0; // 退出当前实例
     }
@@ -139,7 +185,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     // 初始化全局 COM 库
     if (FAILED(CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED)))
     {
-        MessageBoxW(nullptr, L"无法初始化 COM 库。", L"错误", MB_OK | MB_ICONERROR);
+        wchar_t szComInitFailed[256];
+        LoadStringW(hInstance, IDS_MSG_COM_INIT_FAILED, szComInitFailed, _countof(szComInitFailed));
+        MessageBoxW(nullptr, szComInitFailed, szErrorTitle, MB_OK | MB_ICONERROR);
         ReleaseMutex(hMutex);
         CloseHandle(hMutex);
         return 1;
@@ -161,7 +209,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     hIconHidden = LoadIconW(hInstance, MAKEINTRESOURCEW(IDI_HIDDEN));
 
     if (!hIconVisible || !hIconHidden) {
-        MessageBoxW(nullptr, L"加载内嵌图标失败。", L"错误", MB_OK | MB_ICONERROR);
+        wchar_t szIconLoadFailed[256];
+        LoadStringW(hInstance, IDS_MSG_ICON_LOAD_FAILED, szIconLoadFailed, _countof(szIconLoadFailed));
+        MessageBoxW(nullptr, szIconLoadFailed, szErrorTitle, MB_OK | MB_ICONERROR);
         Cleanup();
         CoUninitialize();
         ReleaseMutex(hMutex);
@@ -178,7 +228,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     // 获取桌面图标列表视图的句柄
     desktopListViewHandle = GetDesktopListViewHandle();
     if (!desktopListViewHandle) {
-        MessageBoxW(nullptr, L"未能找到桌面图标列表视图。\n此功能可能无法在此版本的 Windows 或特定配置下工作。", L"警告", MB_OK | MB_ICONWARNING);
+        wchar_t szDesktopViewWarn[512];
+        LoadStringW(hInstance, IDS_MSG_DESKTOP_VIEW_WARN, szDesktopViewWarn, _countof(szDesktopViewWarn));
+        MessageBoxW(nullptr, szDesktopViewWarn, szWarningTitle, MB_OK | MB_ICONWARNING);
         // 程序仍然可以运行（仅托盘图标）
     }
     else {
@@ -194,13 +246,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     nid.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
     nid.hIcon = hIconVisible;
     nid.uCallbackMessage = WM_TRAYICON;
-    wcscpy_s(nid.szTip, _countof(nid.szTip), desktopIconsVisible ? L"单击以隐藏桌面图标" : L"单击以显示桌面图标");
+    UpdateTrayIconAppearance(); // 首次设置托盘图标的提示文本
 
     // 添加托盘图标
     Shell_NotifyIconW(NIM_ADD, &nid);
-
-    // 根据加载的状态更新托盘图标
-    UpdateTrayIconAppearance();
 
     // 主消息循环
     MSG msg;
@@ -236,7 +285,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.hIcon = LoadIconW(hInstance, MAKEINTRESOURCEW(IDI_DESKTOPICONTRAYTOGGLER));
     wcex.hCursor = LoadCursorW(nullptr, IDC_ARROW);
     wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-    wcex.lpszMenuName = nullptr;
+    wcex.lpszMenuName = nullptr; // 不使用窗口菜单
     wcex.lpszClassName = szWindowClass;
     wcex.hIconSm = LoadIconW(wcex.hInstance, MAKEINTRESOURCEW(IDI_DESKTOPICONTRAYTOGGLER));
 
@@ -290,9 +339,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             POINT pt;
             GetCursorPos(&pt);
             HMENU hMenu = CreatePopupMenu();
-            AppendMenuW(hMenu, MF_STRING, IDM_SET_STARTUP, IsStartupEnabled() ? L"取消开机启动(&D)" : L"设为开机启动(&S)");
+            wchar_t szStartupTextEnable[256];
+            LoadStringW(hInstanceGlobal, IDS_MENU_STARTUP_ENABLE, szStartupTextEnable, _countof(szStartupTextEnable));
+            wchar_t szStartupTextDisable[256];
+            LoadStringW(hInstanceGlobal, IDS_MENU_STARTUP_DISABLE, szStartupTextDisable, _countof(szStartupTextDisable));
+            wchar_t szExitText[256];
+            LoadStringW(hInstanceGlobal, IDS_MENU_EXIT, szExitText, _countof(szExitText));
+
+            AppendMenuW(hMenu, MF_STRING, IDM_SET_STARTUP, IsStartupEnabled() ? szStartupTextDisable : szStartupTextEnable);
             AppendMenuW(hMenu, MF_SEPARATOR, 0, nullptr);
-            AppendMenuW(hMenu, MF_STRING, IDM_EXIT, L"退出(&X)");
+            AppendMenuW(hMenu, MF_STRING, IDM_EXIT, szExitText);
             SetForegroundWindow(hWnd); // 确保菜单在鼠标位置正确显示
             TrackPopupMenu(hMenu, TPM_LEFTALIGN, pt.x, pt.y, 0, hWnd, nullptr);
             DestroyMenu(hMenu);
@@ -351,7 +407,11 @@ HWND GetDesktopListViewHandle()
 void ToggleDesktopIcons()
 {
     if (!desktopListViewHandle) {
-        MessageBoxW(nullptr, L"无法控制桌面图标，因为未能找到其窗口句柄。", L"错误", MB_OK | MB_ICONERROR);
+        wchar_t szErrorTitle[256];
+        LoadStringW(hInstanceGlobal, IDS_ERROR_TITLE, szErrorTitle, _countof(szErrorTitle));
+        wchar_t szControlDesktopError[256];
+        LoadStringW(hInstanceGlobal, IDS_MSG_CONTROL_DESKTOP_ERROR, szControlDesktopError, _countof(szControlDesktopError));
+        MessageBoxW(nullptr, szControlDesktopError, szErrorTitle, MB_OK | MB_ICONERROR);
         return;
     }
 
@@ -364,8 +424,12 @@ void UpdateTrayIconAppearance()
 {
     if (hIconVisible && hIconHidden)
     {
+        wchar_t szTipHide[256];
+        LoadStringW(hInstanceGlobal, IDS_TRAY_TIP_HIDE, szTipHide, _countof(szTipHide));
+        wchar_t szTipShow[256];
+        LoadStringW(hInstanceGlobal, IDS_TRAY_TIP_SHOW, szTipShow, _countof(szTipShow));
         nid.hIcon = desktopIconsVisible ? hIconVisible : hIconHidden;
-        wcscpy_s(nid.szTip, _countof(nid.szTip), desktopIconsVisible ? L"单击以隐藏桌面图标" : L"单击以显示桌面图标");
+        wcscpy_s(nid.szTip, _countof(nid.szTip), desktopIconsVisible ? szTipHide : szTipShow);
         Shell_NotifyIconW(NIM_MODIFY, &nid);
     }
 }

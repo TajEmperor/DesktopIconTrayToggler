@@ -13,40 +13,58 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="资源文件\图标">
+      <UniqueIdentifier>{f90a82c1-a9ff-4566-b6cb-d813ab265883}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="DesktopIconTrayToggler.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="DesktopIconTrayToggler.cpp">
+    <ClCompile Include="src\DesktopIconTrayToggler.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="DesktopIconTrayToggler.rc">
-      <Filter>资源文件</Filter>
-    </ResourceCompile>
+    <ClInclude Include="src\DesktopIconTrayToggler.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\targetver.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="resource\resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="DesktopIconTrayToggler.ico">
-      <Filter>资源文件</Filter>
+    <Image Include="resource\icons\DesktopIconTrayToggler.ico">
+      <Filter>资源文件\图标</Filter>
     </Image>
-    <Image Include="hidden.ico">
-      <Filter>资源文件</Filter>
+    <Image Include="resource\icons\hidden.ico">
+      <Filter>资源文件\图标</Filter>
     </Image>
-    <Image Include="visible.ico">
-      <Filter>资源文件</Filter>
+    <Image Include="resource\icons\visible.ico">
+      <Filter>资源文件\图标</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource\rc\resource.de-DE.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="resource\rc\resource.en-US.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="resource\rc\resource.fr-FR.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="resource\rc\resource.ja-JP.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="resource\rc\resource.zh-CN.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="resource\rc\resource.zh-TW.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
