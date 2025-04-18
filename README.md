@@ -41,7 +41,7 @@ DesktopIconTrayToggler is a lightweight Windows application that resides in the 
 
 1.  **Clone the Repository:**
     ```bash
-    git clone [https://github.com/racpast/DesktopIconTrayToggler.git](https://github.com/racpast/DesktopIconTrayToggler.git)
+    git clone https://github.com/racpast/DesktopIconTrayToggler.git
     cd DesktopIconTrayToggler
     ```
 2.  **Open in Visual Studio:** Open the `DesktopIconTrayToggler.sln` file in Visual Studio.
@@ -99,7 +99,7 @@ DesktopIconTrayToggler 是一个轻量级的 Windows 应用程序，它驻留在
 
 1.  **克隆仓库:**
     ```bash
-    git clone [https://github.com/racpast/DesktopIconTrayToggler.git](https://github.com/racpast/DesktopIconTrayToggler.git)
+    git clone https://github.com/racpast/DesktopIconTrayToggler.git
     cd DesktopIconTrayToggler
     ```
 2.  **在 Visual Studio 中打开:** 在 Visual Studio 中打开 `DesktopIconTrayToggler.sln` 文件。
@@ -157,7 +157,7 @@ DesktopIconTrayToggler は、システムトレイに常駐し、ワンクリッ
 
 1.  **リポジトリのクローン:**
     ```bash
-    git clone [https://github.com/racpast/DesktopIconTrayToggler.git](https://github.com/racpast/DesktopIconTrayToggler.git)
+    git clone https://github.com/racpast/DesktopIconTrayToggler.git
     cd DesktopIconTrayToggler
     ```
 2.  **Visual Studio で開く:** `DesktopIconTrayToggler.sln` ファイルを Visual Studio で開きます。
@@ -215,7 +215,7 @@ DesktopIconTrayToggler est une application Windows légère qui réside dans la 
 
 1.  **Cloner le dépôt :**
     ```bash
-    git clone [https://github.com/racpast/DesktopIconTrayToggler.git](https://github.com/racpast/DesktopIconTrayToggler.git)
+    git clone https://github.com/racpast/DesktopIconTrayToggler.git
     cd DesktopIconTrayToggler
     ```
 2.  **Ouvrir dans Visual Studio :** Ouvrez le fichier `DesktopIconTrayToggler.sln` dans Visual Studio.
@@ -273,7 +273,7 @@ DesktopIconTrayToggler ist eine leichte Windows-Anwendung, die sich im System-Tr
 
 1.  **Das Repository klonen:**
     ```bash
-    git clone [https://github.com/racpast/DesktopIconTrayToggler.git](https://github.com/racpast/DesktopIconTrayToggler.git)
+    git clone https://github.com/racpast/DesktopIconTrayToggler.git
     cd DesktopIconTrayToggler
     ```
 2.  **In Visual Studio öffnen:** Öffnen Sie die Datei `DesktopIconTrayToggler.sln` in Visual Studio.
@@ -331,7 +331,7 @@ DesktopIconTrayToggler 是一個輕量級的 Windows 應用程式，它駐留在
 
 1.  **複製儲存庫:**
     ```bash
-    git clone [https://github.com/racpast/DesktopIconTrayToggler.git](https://github.com/racpast/DesktopIconTrayToggler.git)
+    git clone https://github.com/racpast/DesktopIconTrayToggler.git
     cd DesktopIconTrayToggler
     ```
 2.  **在 Visual Studio 中開啟:** 在 Visual Studio 中開啟 `DesktopIconTrayToggler.sln` 檔案。
